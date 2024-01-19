@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width", initial-scale="1">
+<meta name="viewport" content="width=device-width initial-scale=1">
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <title>JSP 게시판 사이트</title>
 </head>
@@ -56,7 +56,8 @@
               </div>               
           </div>       
    <div class="col-Lg-4"></div>
-     <script src="https://code.jquery.com-3.1.1.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
      <script src="js/bootstrap.min.js"></script>
-</body>
+ 
+     </body>
 </html>

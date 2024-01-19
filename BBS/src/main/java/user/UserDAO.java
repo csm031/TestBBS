@@ -13,10 +13,10 @@ public class UserDAO {
 	
 	public UserDAO() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/BBS";
-			String dbID = "root";
-			String dbPassword = "root";
-			Class.forName("com.mysql.jdbc.Driver");
+			String dbURL = "jdbc:oracle:thin:@125.138.250.16:1521:xe";
+			String dbID = "c##csm";
+			String dbPassword = "csm";
+			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
 		}	catch (Exception e){
 				e.printStackTrace();
@@ -24,7 +24,7 @@ public class UserDAO {
 	}
 	
 	public int login(String userID, String userPassword) {
-		String SQL = "select userPassword from user where userID = ?";
+		String SQL = "select userPassword from user1 where userID = ?";
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);		
@@ -34,7 +34,6 @@ public class UserDAO {
 					return 1; // 로그인 성공
 				else
 					return 0; // 비밀번호 불일치
-				
 			}
 			return -1; // 아이디가 없음
 		}	catch (Exception e) {
@@ -42,4 +41,20 @@ public class UserDAO {
 		}
 		return -2; // 데이터베이스 오류
 	}
-}
+
+	public int join(User user) {
+		String SQL = "INSERT INTO USER1 VALUES (?,?,?,?,?)";
+			try {
+				pstmt = conn.prepareStatement(SQL);
+				pstmt.setString(1, user.getUserID());
+				pstmt.setString(2, user.getUserPassword());
+				pstmt.setString(3, user.getUserName());
+				pstmt.setString(4, user.getUserGender());
+				pstmt.setString(5, user.getUserEmail());
+				return pstmt.executeUpdate();
+			}	catch(Exception e) {
+					e.printStackTrace();
+				}
+				return -1; // 데이터베이스 오류
+		}		
+	}
