@@ -19,7 +19,8 @@
 			}
 			int bbsID =0;
 			if (request.getParameter("bbsID") != null) {
-				bbsID = Integer.parseInt(request.getParameter("bbsID"));
+				String bbsIDParam = request.getParameter("bbsID").trim();
+				bbsID = Integer.parseInt(bbsIDParam);
 			}
 			if (bbsID == 0 ) {
 				PrintWriter script = response.getWriter();
@@ -80,24 +81,42 @@
 	</nav>
 	<div class ="container">
 		<div class="row">
-		<form method ="post" action ="writeAction.jsp">
 			<table class ="table table-striped" style = "text-align: center; border :1px solid #dddddd">
 				<thead>
 					<tr>
-						<th colspan = "2" style = "background-color: #eeeeee; text-align: center;">게시판 글쓰기 양식</th>
+						<th colspan = "3" style = "background-color: #eeeeee; text-align: center;">게시판 글보기</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type ="text" class = "form-control" placeholder ="글 제목"  name = "bbsTitle" maxlength ="50"></td>
+						<td style = "width: 20%;">글 제목</td>
+						<td colspan = "2"><%= bbs.getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll("\n","<br>") %></td>
 					</tr>
 					<tr>
-						<td><textarea class = "form-control" placeholder ="글 내용"  name = "bbsContent" maxlength ="2048" style ="height: 350px;"></textarea></td>
-					</tr>
+						<td> 작성자 </td>
+						<td colspan = "2"><%= bbs.getUserID() %></td>
+					</tr>	
+					<tr>
+						<td> 작성일자 </td>
+						<td colspan = "2"><%= bbs.getBbsDate().substring(0, 11) + bbs.getBbsDate().substring(11, 13) + "시" +bbs.getBbsDate().substring(14, 16) + "분" %></td>
+					</tr>	
+					<tr>
+						<td> 내용 </td>
+						<td colspan = "2" style="min-height: 200px; text-align: left;"><%= bbs.getBbsContent().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll("\n","<br>")%></td>
+					</tr>	
 				</tbody>
 			</table>
-			<input type ="submit" class = "btn btn-primary pull-right" value ="글쓰기">			
-		</form>		
+			<a href="bbs.jsp" class="btn btn-primary">목록</a>
+			<%
+				if(userID != null && userID.equals(bbs.getUserID())) {
+			%>
+					<a href="update.jsp?bbsID=<%=bbsID%>" class="btn btn-primary">수정</a>
+					<a href="deleteAction.jsp?bbsID=<%=bbsID%>" class="btn btn-primary">삭제</a>
+			<%
+				}
+			%>		
+				
+		<input type ="submit" class = "btn btn-primary pull-right" value ="글쓰기">			
 	</div>
 	</div>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
